@@ -32,6 +32,8 @@ import java.util.Map;
  * Exports the monitor and all nodes.  The wrapped monitor is not exported directly,
  * but rather this wrapper of it is exported.
  *
+ * // TODO: Remove "no object found" listeners from registered callbacks.
+ *
  * @author  AO Industries, Inc.
  */
 public class RmiServerMonitor extends WrappedMonitor {
