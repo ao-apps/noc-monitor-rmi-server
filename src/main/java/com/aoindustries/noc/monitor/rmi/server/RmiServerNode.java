@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 by AO Industries, Inc.,
+ * Copyright 2012, 2020 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
@@ -14,8 +14,8 @@ import java.rmi.RemoteException;
  */
 public class RmiServerNode extends WrappedNode {
 
-    RmiServerNode(RmiServerMonitor monitor, Node wrapped) throws RemoteException {
-        super(monitor, wrapped);
-        monitor.exportObject(this);
-    }
+	RmiServerNode(RmiServerMonitor monitor, Node wrapped) throws RemoteException {
+		super(monitor, wrapped);
+		monitor.exportObject(this);
+	}
 }
