@@ -24,9 +24,9 @@
 RMI Server for [Network Operations Center Monitoring](https://github.com/aoindustries/noc-monitor).
 
 ## Project Links
-* [Project Home](https://aoindustries.com/noc-monitor-rmi-server/)
-* [Changelog](https://aoindustries.com/noc-monitor-rmi-server/changelog)
-* [API Docs](https://aoindustries.com/noc-monitor-rmi-server/apidocs/)
+* [Project Home](https://aoindustries.com/noc/monitor/rmi-server/)
+* [Changelog](https://aoindustries.com/noc/monitor/rmi-server/changelog)
+* [API Docs](https://aoindustries.com/noc/monitor/rmi-server/apidocs/)
 * [Maven Central Repository](https://search.maven.org/artifact/com.aoindustries/noc-monitor-rmi-server)
 * [GitHub](https://github.com/aoindustries/noc-monitor-rmi-server)
 
