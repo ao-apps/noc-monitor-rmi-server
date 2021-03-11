@@ -1,6 +1,6 @@
 /*
  * noc-monitor-rmi-server - RMI Server for Network Operations Center Monitoring.
- * Copyright (C) 2012, 2020  AO Industries, Inc.
+ * Copyright (C) 2012, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -93,7 +93,7 @@ public class RmiServerMonitor extends WrappedMonitor {
 		}
 	}
 
-	private static final Map<CacheKey,RmiServerMonitor> cache = new HashMap<CacheKey,RmiServerMonitor>();
+	private static final Map<CacheKey, RmiServerMonitor> cache = new HashMap<CacheKey, RmiServerMonitor>();
 
 	/**
 	 * One unique RmiServerMonitor is created for each set addresses, port, and monitor (by identity equals).
