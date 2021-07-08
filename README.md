@@ -1,25 +1,11 @@
 # [<img src="ao-logo.png" alt="AO Logo" width="35" height="40">](https://github.com/aoindustries) [NOC](https://github.com/aoindustries/noc) / [Monitor](https://github.com/aoindustries/noc-monitor) / [RMI Server](https://github.com/aoindustries/noc-monitor-rmi-server)
-<p>
-	<a href="https://aoindustries.com/life-cycle#project-alpha">
-		<img src="https://aoindustries.com/ao-badges/project-alpha.svg" alt="project: alpha" />
-	</a>
-	<a href="https://aoindustries.com/life-cycle#management-preview">
-		<img src="https://aoindustries.com/ao-badges/management-preview.svg" alt="management: preview" />
-	</a>
-	<a href="https://aoindustries.com/life-cycle#packaging-developmental">
-		<img src="https://aoindustries.com/ao-badges/packaging-developmental.svg" alt="packaging: developmental" />
-	</a>
-	<br />
-	<a href="https://docs.oracle.com/en/java/javase/11/docs/api/">
-		<img src="https://aoindustries.com/ao-badges/java-11.svg" alt="java: &gt;= 11" />
-	</a>
-	<a href="http://semver.org/spec/v2.0.0.html">
-		<img src="https://aoindustries.com/ao-badges/semver-2.0.0.svg" alt="semantic versioning: 2.0.0" />
-	</a>
-	<a href="https://www.gnu.org/licenses/lgpl-3.0">
-		<img src="https://aoindustries.com/ao-badges/license-lgpl-3.0.svg" alt="license: LGPL v3" />
-	</a>
-</p>
+
+[![project: alpha](https://aoindustries.com/ao-badges/project-alpha.svg)](https://aoindustries.com/life-cycle#project-alpha)
+[![management: preview](https://aoindustries.com/ao-badges/management-preview.svg)](https://aoindustries.com/life-cycle#management-preview)
+[![packaging: developmental](https://aoindustries.com/ao-badges/packaging-developmental.svg)](https://aoindustries.com/life-cycle#packaging-developmental)  
+[![java: &gt;= 11](https://aoindustries.com/ao-badges/java-11.svg)](https://docs.oracle.com/en/java/javase/11/docs/api/)
+[![semantic versioning: 2.0.0](https://aoindustries.com/ao-badges/semver-2.0.0.svg)](http://semver.org/spec/v2.0.0.html)
+[![license: LGPL v3](https://aoindustries.com/ao-badges/license-lgpl-3.0.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 
 RMI Server for [Network Operations Center Monitoring](https://github.com/aoindustries/noc-monitor).
 
