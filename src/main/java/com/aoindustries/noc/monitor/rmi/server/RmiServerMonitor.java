@@ -70,10 +70,9 @@ public class RmiServerMonitor extends WrappedMonitor {
 		}
 
 		@Override
-		public boolean equals(Object O) {
-			if(O==null) return false;
-			if(!(O instanceof CacheKey)) return false;
-			CacheKey other = (CacheKey)O;
+		public boolean equals(Object obj) {
+			if(!(obj instanceof CacheKey)) return false;
+			CacheKey other = (CacheKey)obj;
 			return
 				port==other.port
 				&& wrapped==other.wrapped
