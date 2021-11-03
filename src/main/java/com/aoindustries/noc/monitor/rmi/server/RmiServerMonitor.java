@@ -22,7 +22,6 @@
  */
 package com.aoindustries.noc.monitor.rmi.server;
 
-import com.aoindustries.lang.ObjectUtils;
 import com.aoindustries.noc.monitor.common.Monitor;
 import com.aoindustries.noc.monitor.common.Node;
 import com.aoindustries.noc.monitor.common.RootNode;
@@ -42,6 +41,7 @@ import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * The RMI server for wrapping and exposing monitors to the network.
@@ -76,8 +76,8 @@ public class RmiServerMonitor extends WrappedMonitor {
 			return
 				port==other.port
 				&& wrapped==other.wrapped
-				&& ObjectUtils.equals(publicAddress, other.publicAddress)
-				&& ObjectUtils.equals(listenAddress, other.listenAddress)
+				&& Objects.equals(publicAddress, other.publicAddress)
+				&& Objects.equals(listenAddress, other.listenAddress)
 			;
 		}
 
@@ -85,14 +85,14 @@ public class RmiServerMonitor extends WrappedMonitor {
 		public int hashCode() {
 			return
 				System.identityHashCode(wrapped)
-				^ (ObjectUtils.hashCode(publicAddress)*7)
-				^ (ObjectUtils.hashCode(listenAddress)*11)
+				^ (Objects.hashCode(publicAddress) * 7)
+				^ (Objects.hashCode(listenAddress) * 11)
 				^ (port*13)
 			;
 		}
 	}
 
-	private static final Map<CacheKey, RmiServerMonitor> cache = new HashMap<CacheKey, RmiServerMonitor>();
+	private static final Map<CacheKey, RmiServerMonitor> cache = new HashMap<>();
 
 	/**
 	 * One unique RmiServerMonitor is created for each set addresses, port, and monitor (by identity equals).
@@ -102,9 +102,9 @@ public class RmiServerMonitor extends WrappedMonitor {
 		if(wrapped instanceof RmiServerMonitor) {
 			RmiServerMonitor wrapper = (RmiServerMonitor)wrapped;
 			if(
-				ObjectUtils.equals(publicAddress, wrapper.publicAddress)
-				&& ObjectUtils.equals(listenAddress, wrapper.listenAddress)
-				&& port==wrapper.port
+				Objects.equals(publicAddress, wrapper.publicAddress)
+				&& Objects.equals(listenAddress, wrapper.listenAddress)
+				&& port == wrapper.port
 			) return wrapper;
 		}
 		CacheKey key = new CacheKey(wrapped, publicAddress, listenAddress, port);
@@ -191,7 +191,7 @@ public class RmiServerMonitor extends WrappedMonitor {
 
 	@Override
 	protected <R extends TableMultiResult> RmiServerTableMultiResultNode<R> newWrappedTableMultiResultNode(TableMultiResultNode<R> node) throws RemoteException {
-		return new RmiServerTableMultiResultNode<R>(this, node);
+		return new RmiServerTableMultiResultNode<>(this, node);
 	}
 
 	@Override
