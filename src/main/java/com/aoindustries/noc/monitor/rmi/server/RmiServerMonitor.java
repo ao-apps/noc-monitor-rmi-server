@@ -56,147 +56,153 @@ import java.util.Objects;
  */
 public class RmiServerMonitor extends WrappedMonitor {
 
-	private static class CacheKey {
+  private static class CacheKey {
 
-		private final Monitor wrapped;
-		private final String publicAddress;
-		private final String listenAddress;
-		private final int port;
+    private final Monitor wrapped;
+    private final String publicAddress;
+    private final String listenAddress;
+    private final int port;
 
-		private CacheKey(Monitor wrapped, String publicAddress, String listenAddress, int port) {
-			this.wrapped = wrapped;
-			this.publicAddress = publicAddress;
-			this.listenAddress = listenAddress;
-			this.port = port;
-		}
+    private CacheKey(Monitor wrapped, String publicAddress, String listenAddress, int port) {
+      this.wrapped = wrapped;
+      this.publicAddress = publicAddress;
+      this.listenAddress = listenAddress;
+      this.port = port;
+    }
 
-		@Override
-		public boolean equals(Object obj) {
-			if(!(obj instanceof CacheKey)) return false;
-			CacheKey other = (CacheKey)obj;
-			return
-				port==other.port
-				&& wrapped==other.wrapped
-				&& Objects.equals(publicAddress, other.publicAddress)
-				&& Objects.equals(listenAddress, other.listenAddress)
-			;
-		}
+    @Override
+    public boolean equals(Object obj) {
+      if (!(obj instanceof CacheKey)) {
+        return false;
+      }
+      CacheKey other = (CacheKey)obj;
+      return
+        port == other.port
+        && wrapped == other.wrapped
+        && Objects.equals(publicAddress, other.publicAddress)
+        && Objects.equals(listenAddress, other.listenAddress)
+      ;
+    }
 
-		@Override
-		public int hashCode() {
-			return
-				System.identityHashCode(wrapped)
-				^ (Objects.hashCode(publicAddress) * 7)
-				^ (Objects.hashCode(listenAddress) * 11)
-				^ (port*13)
-			;
-		}
-	}
+    @Override
+    public int hashCode() {
+      return
+        System.identityHashCode(wrapped)
+        ^ (Objects.hashCode(publicAddress) * 7)
+        ^ (Objects.hashCode(listenAddress) * 11)
+        ^ (port*13)
+      ;
+    }
+  }
 
-	private static final Map<CacheKey, RmiServerMonitor> cache = new HashMap<>();
+  private static final Map<CacheKey, RmiServerMonitor> cache = new HashMap<>();
 
-	/**
-	 * One unique RmiServerMonitor is created for each set addresses, port, and monitor (by identity equals).
-	 */
-	public static RmiServerMonitor getInstance(Monitor wrapped, String publicAddress, String listenAddress, int port) throws RemoteException {
-		// Don't double-wrap server with same values
-		if(wrapped instanceof RmiServerMonitor) {
-			RmiServerMonitor wrapper = (RmiServerMonitor)wrapped;
-			if(
-				Objects.equals(publicAddress, wrapper.publicAddress)
-				&& Objects.equals(listenAddress, wrapper.listenAddress)
-				&& port == wrapper.port
-			) return wrapper;
-		}
-		CacheKey key = new CacheKey(wrapped, publicAddress, listenAddress, port);
-		synchronized(cache) {
-			RmiServerMonitor server = cache.get(key);
-			if(server==null) {
-				server = new RmiServerMonitor(wrapped, publicAddress, listenAddress, port);
-				cache.put(key, server);
-			}
-			return server;
-		}
-	}
+  /**
+   * One unique RmiServerMonitor is created for each set addresses, port, and monitor (by identity equals).
+   */
+  public static RmiServerMonitor getInstance(Monitor wrapped, String publicAddress, String listenAddress, int port) throws RemoteException {
+    // Don't double-wrap server with same values
+    if (wrapped instanceof RmiServerMonitor) {
+      RmiServerMonitor wrapper = (RmiServerMonitor)wrapped;
+      if (
+        Objects.equals(publicAddress, wrapper.publicAddress)
+        && Objects.equals(listenAddress, wrapper.listenAddress)
+        && port == wrapper.port
+      ) {
+        return wrapper;
+      }
+    }
+    CacheKey key = new CacheKey(wrapped, publicAddress, listenAddress, port);
+    synchronized (cache) {
+      RmiServerMonitor server = cache.get(key);
+      if (server == null) {
+        server = new RmiServerMonitor(wrapped, publicAddress, listenAddress, port);
+        cache.put(key, server);
+      }
+      return server;
+    }
+  }
 
-	private final String publicAddress;
-	private final String listenAddress;
-	final int port;
-	final RMIClientSocketFactory csf;
-	final RMIServerSocketFactory ssf;
+  private final String publicAddress;
+  private final String listenAddress;
+  final int port;
+  final RMIClientSocketFactory csf;
+  final RMIServerSocketFactory ssf;
 
-	private RmiServerMonitor(Monitor wrapped, String publicAddress, String listenAddress, int port) throws RemoteException {
-		super(wrapped);
-		// Setup the RMI system properties
-		if(publicAddress!=null && publicAddress.length()>0) {
-			System.setProperty("java.rmi.server.hostname", publicAddress);
-		} else if(listenAddress!=null && listenAddress.length()>0) {
-			System.setProperty("java.rmi.server.hostname", listenAddress);
-		} else {
-			System.clearProperty("java.rmi.server.hostname");
-		}
-		System.setProperty("java.rmi.server.randomIDs", "true");
-		System.setProperty("java.rmi.server.useCodebaseOnly", "true");
-		System.clearProperty("java.rmi.server.codebase");
-		System.setProperty("java.rmi.server.disableHttp", "true");
-		// System.setProperty("sun.rmi.server.suppressStackTraces", "true");
+  private RmiServerMonitor(Monitor wrapped, String publicAddress, String listenAddress, int port) throws RemoteException {
+    super(wrapped);
+    // Setup the RMI system properties
+    if (publicAddress != null && publicAddress.length()>0) {
+      System.setProperty("java.rmi.server.hostname", publicAddress);
+    } else if (listenAddress != null && listenAddress.length()>0) {
+      System.setProperty("java.rmi.server.hostname", listenAddress);
+    } else {
+      System.clearProperty("java.rmi.server.hostname");
+    }
+    System.setProperty("java.rmi.server.randomIDs", "true");
+    System.setProperty("java.rmi.server.useCodebaseOnly", "true");
+    System.clearProperty("java.rmi.server.codebase");
+    System.setProperty("java.rmi.server.disableHttp", "true");
+    // System.setProperty("sun.rmi.server.suppressStackTraces", "true");
 
-		// RMI socket factories
-		if(listenAddress!=null && listenAddress.length()>0) {
-			// TODO: Why doesn't listenAddress work on the next line?
-			csf = new RMIClientSocketFactorySSL();
-			ssf = new RMIServerSocketFactorySSL(listenAddress);
-		} else {
-			csf = new RMIClientSocketFactorySSL();
-			ssf = new RMIServerSocketFactorySSL();
-		}
+    // RMI socket factories
+    if (listenAddress != null && listenAddress.length()>0) {
+      // TODO: Why doesn't listenAddress work on the next line?
+      csf = new RMIClientSocketFactorySSL();
+      ssf = new RMIServerSocketFactorySSL(listenAddress);
+    } else {
+      csf = new RMIClientSocketFactorySSL();
+      ssf = new RMIServerSocketFactorySSL();
+    }
 
-		this.publicAddress = publicAddress;
-		this.listenAddress = listenAddress;
-		this.port = port;
+    this.publicAddress = publicAddress;
+    this.listenAddress = listenAddress;
+    this.port = port;
 
-		exportObject(this, Monitor.class.getName()+"_Stub");
-	}
+    exportObject(this, Monitor.class.getName()+"_Stub");
+  }
 
-	/**
-	 * Creates the local registry if not yet created, then exports the object.
-	 */
-	final Remote exportObject(Remote obj) throws RemoteException {
-		return exportObject(obj, null);
-	}
+  /**
+   * Creates the local registry if not yet created, then exports the object.
+   */
+  final Remote exportObject(Remote obj) throws RemoteException {
+    return exportObject(obj, null);
+  }
 
-	/**
-	 * Creates the local registry if not yet created, then exports the object.
-	 */
-	final Remote exportObject(Remote obj, String name) throws RemoteException {
-		Registry registry = RegistryManager.createRegistry(port, csf, ssf);
-		Remote stub = UnicastRemoteObject.exportObject(obj, port, csf, ssf);
-		if(name!=null) registry.rebind(name, stub);
-		return stub;
-	}
+  /**
+   * Creates the local registry if not yet created, then exports the object.
+   */
+  final Remote exportObject(Remote obj, String name) throws RemoteException {
+    Registry registry = RegistryManager.createRegistry(port, csf, ssf);
+    Remote stub = UnicastRemoteObject.exportObject(obj, port, csf, ssf);
+    if (name != null) {
+      registry.rebind(name, stub);
+    }
+    return stub;
+  }
 
-	@Override
-	protected RmiServerNode newWrappedNode(Node node) throws RemoteException {
-		return new RmiServerNode(this, node);
-	}
+  @Override
+  protected RmiServerNode newWrappedNode(Node node) throws RemoteException {
+    return new RmiServerNode(this, node);
+  }
 
-	@Override
-	protected RmiServerRootNode newWrappedRootNode(RootNode node) throws RemoteException {
-		return new RmiServerRootNode(this, node);
-	}
+  @Override
+  protected RmiServerRootNode newWrappedRootNode(RootNode node) throws RemoteException {
+    return new RmiServerRootNode(this, node);
+  }
 
-	@Override
-	protected RmiServerSingleResultNode newWrappedSingleResultNode(SingleResultNode node) throws RemoteException {
-		return new RmiServerSingleResultNode(this, node);
-	}
+  @Override
+  protected RmiServerSingleResultNode newWrappedSingleResultNode(SingleResultNode node) throws RemoteException {
+    return new RmiServerSingleResultNode(this, node);
+  }
 
-	@Override
-	protected <R extends TableMultiResult> RmiServerTableMultiResultNode<R> newWrappedTableMultiResultNode(TableMultiResultNode<R> node) throws RemoteException {
-		return new RmiServerTableMultiResultNode<>(this, node);
-	}
+  @Override
+  protected <R extends TableMultiResult> RmiServerTableMultiResultNode<R> newWrappedTableMultiResultNode(TableMultiResultNode<R> node) throws RemoteException {
+    return new RmiServerTableMultiResultNode<>(this, node);
+  }
 
-	@Override
-	protected RmiServerTableResultNode newWrappedTableResultNode(TableResultNode node) throws RemoteException {
-		return new RmiServerTableResultNode(this, node);
-	}
+  @Override
+  protected RmiServerTableResultNode newWrappedTableResultNode(TableResultNode node) throws RemoteException {
+    return new RmiServerTableResultNode(this, node);
+  }
 }

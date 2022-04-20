@@ -32,8 +32,8 @@ import java.rmi.RemoteException;
  */
 public class RmiServerSingleResultNode extends WrappedSingleResultNode {
 
-	RmiServerSingleResultNode(RmiServerMonitor monitor, SingleResultNode wrapped) throws RemoteException {
-		super(monitor, wrapped);
-		monitor.exportObject(this);
-	}
+  RmiServerSingleResultNode(RmiServerMonitor monitor, SingleResultNode wrapped) throws RemoteException {
+    super(monitor, wrapped);
+    monitor.exportObject(this);
+  }
 }

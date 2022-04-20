@@ -33,8 +33,8 @@ import java.rmi.RemoteException;
  */
 public class RmiServerTableMultiResultNode<R extends TableMultiResult> extends WrappedTableMultiResultNode<R> {
 
-	RmiServerTableMultiResultNode(RmiServerMonitor monitor, TableMultiResultNode<R> wrapped) throws RemoteException {
-		super(monitor, wrapped);
-		monitor.exportObject(this);
-	}
+  RmiServerTableMultiResultNode(RmiServerMonitor monitor, TableMultiResultNode<R> wrapped) throws RemoteException {
+    super(monitor, wrapped);
+    monitor.exportObject(this);
+  }
 }
