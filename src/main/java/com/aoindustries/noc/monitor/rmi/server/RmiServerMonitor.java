@@ -46,11 +46,13 @@ import java.util.Objects;
 
 /**
  * The RMI server for wrapping and exposing monitors to the network.
- *
+ * <p>
  * Exports the monitor and all nodes.  The wrapped monitor is not exported directly,
  * but rather this wrapper of it is exported.
- *
- * // TODO: Remove "no object found" listeners from registered callbacks.
+ * </p>
+ * <p>
+ * TODO: Remove "no object found" listeners from registered callbacks.
+ * </p>
  *
  * @author  AO Industries, Inc.
  */
@@ -80,8 +82,7 @@ public class RmiServerMonitor extends WrappedMonitor {
         port == other.port
         && wrapped == other.wrapped
         && Objects.equals(publicAddress, other.publicAddress)
-        && Objects.equals(listenAddress, other.listenAddress)
-      ;
+        && Objects.equals(listenAddress, other.listenAddress);
     }
 
     @Override
@@ -90,8 +91,7 @@ public class RmiServerMonitor extends WrappedMonitor {
         System.identityHashCode(wrapped)
         ^ (Objects.hashCode(publicAddress) * 7)
         ^ (Objects.hashCode(listenAddress) * 11)
-        ^ (port*13)
-      ;
+        ^ (port*13);
     }
   }
 
