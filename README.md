@@ -13,7 +13,7 @@ RMI Server for [Network Operations Center Monitoring](https://github.com/ao-apps
 * [Project Home](https://aoindustries.com/noc/monitor/rmi-server/)
 * [Changelog](https://aoindustries.com/noc/monitor/rmi-server/changelog)
 * [API Docs](https://aoindustries.com/noc/monitor/rmi-server/apidocs/)
-* [Maven Central Repository](https://central.sonatype.com/search?namespace=com.aoindustries&q=a%3Anoc-monitor-rmi-server)
+* [Maven Central Repository](https://central.sonatype.com/artifact/com.aoindustries/noc-monitor-rmi-server)
 * [GitHub](https://github.com/ao-apps/noc-monitor-rmi-server)
 
 ## Contact Us
