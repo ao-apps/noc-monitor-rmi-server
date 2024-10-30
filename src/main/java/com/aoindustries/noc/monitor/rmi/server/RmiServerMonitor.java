@@ -1,6 +1,6 @@
 /*
  * noc-monitor-rmi-server - RMI Server for Network Operations Center Monitoring.
- * Copyright (C) 2012, 2020, 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2012, 2020, 2021, 2022, 2024  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -46,13 +46,11 @@ import java.util.Objects;
 
 /**
  * The RMI server for wrapping and exposing monitors to the network.
- * <p>
- * Exports the monitor and all nodes.  The wrapped monitor is not exported directly,
- * but rather this wrapper of it is exported.
- * </p>
- * <p>
- * TODO: Remove "no object found" listeners from registered callbacks.
- * </p>
+ *
+ * <p>Exports the monitor and all nodes.  The wrapped monitor is not exported directly,
+ * but rather this wrapper of it is exported.</p>
+ *
+ * <p>TODO: Remove "no object found" listeners from registered callbacks.</p>
  *
  * @author  AO Industries, Inc.
  */
